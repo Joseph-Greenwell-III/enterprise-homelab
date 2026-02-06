@@ -1,2 +1,34 @@
-# enterprise-homelab
-Enterprise-style homelab documenting Active Directory, networking, and security infrastructure built for SOC and blue team skill development.
+# Enterprise Security Homelab
+
+This repository documents the design, deployment, and evolution of an enterprise-style homelab environment built to develop hands-on cybersecurity and SOC analyst skills.
+
+## Objectives
+- Simulate a small enterprise Active Directory environment
+- Practice Windows administration, networking, and security monitoring
+- Build a foundation for SIEM, detection engineering, and incident response
+
+## Current Status
+✅ Phase 1 – Core Infrastructure (Completed)  
+⏳ Phase 2 – Centralized Logging (Planned)  
+⏳ Phase 3 – Attack & Detection (Planned)
+
+## Environment Overview
+- Hypervisor: Proxmox
+- Firewall: OPNsense
+- Directory Services: Windows Server Active Directory
+- Clients: Windows 11, Linux
+- Network Segmentation via VLANs
+
+## Architecture
+![Network Diagram](architecture/network-diagram.png)
+
+## Phases
+- [Phase 1 – Core Infrastructure](phase-1-foundation/overview.md)
+- Phase 2 – SIEM & Log Aggregation (Planned)
+- Phase 3 – Adversary Simulation & Detection (Planned)
+
+## Future Enhancements
+- Windows Event Forwarding
+- Splunk SIEM
+- Sysmon telemetry
+- Detection engineering aligned to MITRE ATT&CK
