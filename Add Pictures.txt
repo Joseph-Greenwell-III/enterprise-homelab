@@ -1,0 +1,223 @@
+2. Do a final Phase 1 “review like a hiring manager” pass
+
+1. Add pictures:
+
+Love this step. **Screenshot curation is where your repo stops looking like “a lab” and starts looking like documentation.** Most people skip this — you won’t.
+
+I’ll break this into:
+
+1. **What screenshots to include**
+2. **Where to put them**
+3. **How to name them**
+4. **How to reference them in Markdown**
+5. **What screenshots NOT to include**
+
+---
+
+## 1️⃣ What Screenshots to Include (Signal > Volume)
+
+You want **proof points**, not a photo dump.
+
+### ✅ MUST-HAVE Screenshots (Phase 1)
+
+### 🔹 Architecture
+
+**Location:** `architecture/screenshots/`
+
+* `proxmox-overview.png`
+
+  * Proxmox dashboard showing all VMs
+* `opnsense-interfaces.png`
+
+  * WAN/LAN interfaces with IPs visible
+* `opnsense-firewall-rules.png`
+
+  * A clean ruleset showing allow/deny logic
+
+---
+
+### 🔹 Networking
+
+**Location:** `phase-1-foundation/screenshots/networking/`
+
+* `opnsense-aliases.png`
+
+  * Network / host / port aliases
+* `opnsense-rule-tiers.png`
+
+  * Rules showing Tier-based enforcement
+
+---
+
+### 🔹 Active Directory
+
+**Location:** `phase-1-foundation/screenshots/active-directory/`
+
+* `aduc-tiered-ou.png`
+
+  * Your Tier 0 / 1 / 2 OU structure
+* `gpmc-baselines.png`
+
+  * GPO baselines applied per tier
+* `dc01-dns-config.png`
+
+  * AD DNS role (optional but strong)
+
+---
+
+### 🔹 Virtualization
+
+**Location:** `phase-1-foundation/screenshots/virtualization/`
+
+* `proxmox-bridges.png`
+
+  * vmbr0 / vmbr1 configuration
+* `proxmox-backup-server.png`
+
+  * PBS dashboard
+* `golden-images.png`
+
+  * Templates listed (admin + client)
+
+---
+
+## 2️⃣ Folder Structure (Clean + Scalable)
+
+```
+architecture/
+└── screenshots/
+    ├── proxmox-overview.png
+    ├── opnsense-interfaces.png
+    └── opnsense-firewall-rules.png
+
+phase-1-foundation/
+└── screenshots/
+    ├── networking/
+    ├── active-directory/
+    └── virtualization/
+```
+
+This matches how enterprises store design evidence.
+
+---
+
+## 3️⃣ Screenshot Naming Rules (Important)
+
+**Rule of thumb:**
+
+> If the filename alone explains the screenshot, you did it right.
+
+### ✅ Good
+
+* `opnsense-aliases.png`
+* `aduc-tiered-ou.png`
+* `gpmc-baselines.png`
+
+### ❌ Bad
+
+* `Screenshot_2026-02-07.png`
+* `image1.png`
+* `final-final2.png`
+
+---
+
+## 4️⃣ How to Reference Screenshots in Markdown
+
+Never just dump screenshots at the bottom. Always explain **what the reader should notice**.
+
+### Example: `active-directory.md`
+
+```md
+### Tiered OU Structure
+The Active Directory OU hierarchy is organized by administrative tier to enforce privilege separation.
+
+![Tiered OU Structure](screenshots/active-directory/aduc-tiered-ou.png)
+```
+
+### Example: `networking.md`
+
+```md
+### Firewall Aliases
+Aliases are used to simplify firewall rule management and reduce complexity.
+
+![OPNsense Aliases](screenshots/networking/opnsense-aliases.png)
+```
+
+---
+
+## 5️⃣ What to Crop / Blur
+
+You should:
+
+* Crop out browser tabs
+* Crop excess UI chrome
+* Blur:
+
+  * Public IPs
+  * Usernames if personal
+  * Any secrets
+
+You **do not** need to blur:
+
+* RFC1918 IPs (192.168.x.x)
+* Hostnames
+* VM names
+
+---
+
+## 6️⃣ What NOT to Include (Common Mistakes)
+
+❌ Every firewall rule
+❌ Every GPO setting
+❌ VM hardware configs
+❌ Logs at this stage
+❌ Anything redundant
+
+If a screenshot doesn’t **prove a design decision**, it doesn’t belong.
+
+---
+
+## 7️⃣ Screenshot-to-Resume Mapping (Secret Sauce)
+
+Each screenshot supports a bullet:
+
+| Screenshot       | Resume Skill      |
+| ---------------- | ----------------- |
+| Proxmox overview | Virtualization    |
+| Firewall rules   | Network security  |
+| Tiered OUs       | IAM / AD security |
+| GPO baselines    | Policy hardening  |
+| Backup server    | Resilience        |
+
+This is why you’re doing this.
+
+---
+
+## 8️⃣ Suggested Commit Strategy
+
+Don’t commit 30 screenshots at once.
+
+Example commits:
+
+```
+Add Active Directory tiered OU screenshots
+Add firewall alias and rule screenshots
+Add Proxmox virtualization screenshots
+```
+
+Small, readable commits = professional signal.
+
+---
+
+## Want to Go Hands-On Next?
+
+If you want, next we can:
+
+* Walk through **your existing screenshots one by one** and decide keep / cut
+* Insert screenshots **directly into each Markdown file**
+* Do a final **Phase 1 “review like a hiring manager” pass**
+
+Tell me which you want:
+1️⃣ Review my existing screenshots
+2️⃣ Embed screenshots into docs
+3️⃣ Final Phase 1 polish & checklist
