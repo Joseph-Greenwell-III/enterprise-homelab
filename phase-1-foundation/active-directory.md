@@ -58,6 +58,10 @@ Tier 2 contains standard user systems and non-privileged accounts.
 ## Organizational Unit (OU) Structure
 The Active Directory OU hierarchy is organized by tier and function rather than by user or computer type.
 
+![Tiered AD OU Structure](screenshots/active-directory/aduc-tiered-ous.png)
+
+The screenshot above shows the tiered Organizational Unit (OU) layout as implemented in Active Directory Users and Computers (ADUC).
+
 ![Tiered GPO and OU Structure](screenshots/active-directory/gpmc-tiered-baselines.png)
 
 The screenshot above illustrates the tiered OU layout and associated baseline Group Policy Objects (GPOs) as implemented in Group Policy Management Console (GPMC).
@@ -78,7 +82,6 @@ corp.lab
 │ ├── Tier 2 - Admin Users
 │ └── Tier 2 - Workstations
 └── Users
-
 
 This structure simplifies policy application and prevents accidental privilege inheritance.
 
@@ -111,7 +114,6 @@ Baseline Group Policy Objects (GPOs) are applied at each tier level.
 
 ## Administrative Access Controls
 Administrative access is controlled using a combination of:
-
 - Tier-specific admin groups
 - Logon restrictions
 - Group Policy user rights assignments
@@ -127,16 +129,8 @@ Service accounts are:
 
 ## Security Benefits
 This Active Directory design provides:
-
 - Reduced credential exposure
 - Clear administrative boundaries
 - Strong defense against lateral movement
 - Easier incident containment
 - Enterprise-aligned identity controls
-
-## Future Enhancements
-Planned improvements include:
-- Privileged Access Workstations (PAW) hardening
-- Just-In-Time administrative access
-- Fine-grained password policies
-- Enhanced auditing of privileged actions

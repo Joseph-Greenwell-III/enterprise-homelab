@@ -33,72 +33,20 @@ The Proxmox management interface resides on the home network and does not bypass
 Proxmox virtual bridges are used to support network segmentation.
 
 - **vmbr0**
-  - Internal lab network
-  - Connected to OPNsense LAN interface
+  - Home LAN (192.168.1.0/24)
+  - Hosts Proxmox management interface
 - **vmbr1**
-  - Home network
-  - Connected to OPNsense WAN interface
+  - Internal lab network (192.168.10.0/24)
+  - Connected to OPNsense LAN interface
 
 No virtual machines bypass the firewall; all traffic is routed through OPNsense.
 
-## Storage Architecture
-Proxmox uses local storage for virtual machine disks with centralized backup handling.
+## Proxmox Network Bridge Configuration
 
-- VM disks stored on Proxmox-managed storage
-- Backup data stored on Proxmox Backup Server
-- Cold storage backups represent offline or detached copies
+The following screenshot provides evidence of the Proxmox network bridge layout used to enforce separation between management access and internal lab traffic.
 
-Storage is designed to support recovery testing rather than high availability.
+![Proxmox Network Bridges](screenshots/virtualization/proxmox-network-bridges.png)
 
-## Backup & Recovery Strategy
-Backups are a core design consideration rather than an afterthought.
+The Proxmox management interface resides on **vmbr0 (Home LAN)**, while **vmbr1** is dedicated to internal lab traffic and is subject to OPNsense firewall enforcement.
 
-### Proxmox Backup Server
-- Centralized backup target
-- Supports scheduled backups
-- Enables VM-level restoration and testing
-
-### Cold Storage Backup
-- Represents offline or detached backup media
-- Protects against ransomware and destructive events
-- Not continuously accessible from the lab network
-
-## Golden Images
-Golden images are maintained for repeatable deployment.
-
-### Golden Admin Image
-- Windows 11 administrative workstation baseline
-- Hardened configuration
-- Used to rapidly deploy Tier 1 admin systems
-
-### Golden Client Image
-- Windows 11 client baseline
-- Represents standard user endpoint configuration
-- Used for consistent testing and telemetry generation
-
-Golden images reduce configuration drift and improve consistency across deployments.
-
-## Resource Allocation Philosophy
-Resources are allocated intentionally based on system role.
-
-- Infrastructure systems receive stable allocations
-- Client systems reflect realistic enterprise endpoints
-- Attack systems are constrained to limit impact
-
-This mirrors real-world prioritization rather than maximizing performance.
-
-## Operational Benefits
-This virtualization design provides:
-
-- Strong isolation between systems
-- Predictable network flows
-- Easy system recovery
-- Repeatable deployments
-- A stable platform for security experimentation
-
-## Future Enhancements
-Planned virtualization improvements include:
-- Snapshot-based testing workflows
-- Automation for VM provisioning
-- Resource monitoring integration
-- Infrastructure-as-code experiments
+This design ensures that hypervisor management access is isolated from internal lab workloads and governed by explicit firewall policy.
