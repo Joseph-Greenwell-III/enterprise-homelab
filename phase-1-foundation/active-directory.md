@@ -134,3 +134,4 @@ This Active Directory design provides:
 - Strong defense against lateral movement
 - Easier incident containment
 - Enterprise-aligned identity controls
+- mirrors Microsoft’s enterprise administrative tiering guidance.

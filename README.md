@@ -1,3 +1,7 @@
+> ⚠️ This repository represents a simulated enterprise-style homelab.
+> All systems, domain names, IP addresses, and credentials are fictional or internal-only.
+> Issues are used for tracking future improvements and phase planning.
+
 # Enterprise Security Homelab
 
 This repository documents the design, deployment, and evolution of an enterprise-style homelab environment built to develop hands-on cybersecurity and SOC analyst skills.
@@ -20,7 +24,7 @@ This repository documents the design, deployment, and evolution of an enterprise
 - Network Segmentation via VLANs
 
 ## Architecture
-![Network Diagram](architecture/network-diagram.png)
+![Network Diagram](phase-1-foundation/screenshots/architecture/network-diagram.png)
 
 ## Phases
 - [Phase 1 – Core Infrastructure](phase-1-foundation/overview.md)

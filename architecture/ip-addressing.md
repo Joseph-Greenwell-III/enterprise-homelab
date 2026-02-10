@@ -36,6 +36,7 @@ The goal is to mirror enterprise network design principles that support security
 - Single internal /24 subnet for Phase 1 simplicity
 - Static IP assignments for all infrastructure systems
 - Addressing aligned to system role rather than VM ID
+- Addressing choices support log correlation and SIEM visibility
 
 This structure allows easy expansion into additional VLANs or subnets in later phases (e.g., SIEM, admin workstations, attack simulation).
 
