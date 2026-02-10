@@ -28,6 +28,8 @@ Virtual machines are named and organized by function to improve clarity and mana
 This naming convention simplifies monitoring, logging, and administrative workflows.
 
 ## Network Integration
+The Proxmox management interface resides on the home network and does not bypass firewall enforcement for internal lab traffic.
+
 Proxmox virtual bridges are used to support network segmentation.
 
 - **vmbr0**

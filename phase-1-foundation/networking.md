@@ -7,7 +7,7 @@ The objective is to enforce clear trust boundaries, restrict lateral movement, a
 ## Network Architecture Overview
 The following diagram illustrates the logical network layout, trust boundaries, and traffic enforcement points used in Phase 1.
 
-![Network Architecture Diagram](../architecture/network-diagram.png)
+![Network Architecture Diagram](screenshots/architecture/network-diagram.png)
 
 All network segmentation and traffic controls described below map directly to this architecture.
 
@@ -46,8 +46,11 @@ Firewall rules are designed according to the following principles:
 - **Readability & Maintainability**
   - Network and service aliases are used extensively to reduce complexity
 
+Firewall rules are evaluated on a first-match basis, with explicit deny rules placed last to enforce default-deny behavior.
+
 ## Alias-Based Rule Design
 Aliases are used to simplify rule management and improve clarity.
+Aliases are categorized by function (network, host, and port group) to ensure rules remain readable and auditable.
 
 ### Network Aliases
 - LAB_NET
@@ -131,3 +134,9 @@ Planned improvements include:
 - IDS/IPS tuning
 - Egress filtering based on application identity
 - Enhanced logging of denied traffic
+
+## Firewall Rule Enforcement Evidence
+
+![OPNsense Firewall Rules](screenshots/networking/opnsense-firewall-rules.png)
+
+![OPNsense Firewall Aliases](screenshots/networking/opnsense-aliases.png)

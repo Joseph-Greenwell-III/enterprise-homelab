@@ -5,6 +5,12 @@ The goal of Phase 1 is to establish a stable, secure, and well-documented enterp
 
 This phase focuses on core identity services, network segmentation, administrative boundaries, and supporting infrastructure rather than detection logic or automation.
 
+## Network Architecture
+
+The following diagram illustrates the overall network segmentation, trust boundaries, and tiered infrastructure design used throughout Phase 1.
+
+![Network Architecture Diagram](screenshots/architecture/network-diagram.png)
+
 ## Environment Summary
 The homelab is built on Proxmox Virtual Environment and segmented using OPNsense as the central routing and security enforcement point. All systems are deployed with intentional role separation and aligned to a tiered Active Directory security model.
 

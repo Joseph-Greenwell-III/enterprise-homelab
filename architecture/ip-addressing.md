@@ -10,20 +10,20 @@ The goal is to mirror enterprise network design principles that support security
 - Hypervisor: Proxmox Virtual Environment 9.1.4
 - Firewall: OPNsense
 - Virtual bridges:
-  - vmbr1 – Home LAN
-  - vmbr0 – Internal lab network
+  - vmbr0 – Home LAN
+  - vmbr1 – Internal lab network
 
 ## Network Segmentation
 
-### Home LAN (vmbr1)
+### Home LAN (vmbr0)
 - Subnet: `192.168.1.0/24`
-- Firewall IP: `192.168.1.171`
+- Firewall WAN IP: `192.168.1.171`
 - Purpose:
   - Provides upstream internet access
   - Isolates the lab from the physical home network
   - Prevents lateral movement from lab systems into the home LAN
 
-### Internal Lab Network (vmbr0)
+### Internal Lab Network (vmbr1)
 - Subnet: `192.168.10.0/24`
 - Firewall IP (Gateway): `192.168.10.1`
 - Purpose:
@@ -44,12 +44,13 @@ This structure allows easy expansion into additional VLANs or subnets in later p
 | IP Address       | Hostname          | Role / Purpose |
 |------------------|-------------------|----------------|
 | 192.168.10.1     | OPNsense          | Lab network gateway |
+| 192.168.1.8      | PROXMOX-MGMT      | Proxmox VE management interface (Home LAN) |
 | 192.168.10.10    | DC01              | Tier 0 Active Directory Domain Controller & AD DNS |
 | 192.168.10.20    | PBS01             | Proxmox Backup Server |
 | 192.168.10.40    | SIEM01            | Wazuh SIEM server |
 | 192.168.10.60    | WIN11-Admin01     | Tier 1 administrative workstation |
 | 192.168.10.70    | KALI01            | Attack simulation / testing |
-| 192.168.10.80    | WIN11-Client01    | Tier 2 client workstation |
+| 192.168.10.100   | WIN11-Client01    | Tier 2 client workstation |
 
 ## DNS and Directory Services
 - Active Directory DNS is provided by DC01 (`192.168.10.10`)
