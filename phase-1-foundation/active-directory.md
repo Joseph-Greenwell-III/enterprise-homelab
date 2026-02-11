@@ -83,6 +83,7 @@ corp.lab
 │   ├── Tier 2 - Admin Users
 │   └── Tier 2 - Workstations
 └── Users
+```
 
 This structure simplifies policy application and prevents accidental privilege inheritance.
 
