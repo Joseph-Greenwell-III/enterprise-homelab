@@ -1,5 +1,9 @@
-> ⚠️ This repository represents a simulated enterprise-style homelab.
+> ⚠️ **Notice**
+>
+> This repository represents a simulated enterprise-style homelab.
+>
 > All systems, domain names, IP addresses, and credentials are fictional or internal-only.
+>
 > Issues are used for tracking future improvements and phase planning.
 
 # Enterprise Security Homelab

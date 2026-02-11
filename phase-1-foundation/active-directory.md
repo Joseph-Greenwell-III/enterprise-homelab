@@ -66,21 +66,22 @@ The screenshot above shows the tiered Organizational Unit (OU) layout as impleme
 
 The screenshot above illustrates the tiered OU layout and associated baseline Group Policy Objects (GPOs) as implemented in Group Policy Management Console (GPMC).
 
+```text
 corp.lab
 ├── Tier 0
-│ ├── Tier 0 - Admin Groups
-│ ├── Tier 0 - Admin Users
-│ ├── Tier 0 - Servers (non-DC identity infra)
-│ └── Tier 0 - Service Accounts
+│   ├── Tier 0 - Admin Groups
+│   ├── Tier 0 - Admin Users
+│   ├── Tier 0 - Servers (non-DC identity infra)
+│   └── Tier 0 - Service Accounts
 ├── Tier 1
-│ ├── Tier 1 - Admin Groups
-│ ├── Tier 1 - Admin Servers
-│ ├── Tier 1 - Admin Users
-│ └── Tier 1 - Admin Workstations
+│   ├── Tier 1 - Admin Groups
+│   ├── Tier 1 - Admin Servers
+│   ├── Tier 1 - Admin Users
+│   └── Tier 1 - Admin Workstations
 ├── Tier 2
-│ ├── Tier 2 - Admin Groups
-│ ├── Tier 2 - Admin Users
-│ └── Tier 2 - Workstations
+│   ├── Tier 2 - Admin Groups
+│   ├── Tier 2 - Admin Users
+│   └── Tier 2 - Workstations
 └── Users
 
 This structure simplifies policy application and prevents accidental privilege inheritance.
