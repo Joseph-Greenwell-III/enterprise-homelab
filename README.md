@@ -40,3 +40,12 @@ This repository documents the design, deployment, and evolution of an enterprise
 - Splunk SIEM
 - Sysmon telemetry
 - Detection engineering aligned to MITRE ATT&CK
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Attribution
+
+This repository reflects my personal design decisions, implementation choices, and documentation approach for an enterprise-style homelab project.  
+While others are welcome to learn from or reference this work in accordance with the license, this repository represents original effort and ongoing iteration.
