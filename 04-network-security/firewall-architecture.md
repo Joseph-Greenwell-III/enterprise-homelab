@@ -1,210 +1,106 @@
 # Firewall Architecture
 
-## Purpose
+## Overview
 
-The firewall architecture defines the trust boundaries, traffic enforcement model, and network segmentation controls for the Enterprise Security Homelab.
-
-OPNsense functions as the centralized Policy Enforcement Point (PEP).  
-No inter-network communication bypasses this control layer.
-
-The objective is to:
-
-- Enforce tier boundaries
-- Restrict lateral movement
-- Control administrative access paths
-- Support centralized monitoring
-- Maintain a default-deny posture
-
----
-
-## Enforcement Model
-
-All traffic between:
-
-- Home LAN (Management Network)
-- Internal Enterprise Network
-- Attack Simulation Zone
-
-is routed through OPNsense.
-
-There is no direct routing between segments outside of firewall inspection.
-
-The firewall is responsible for:
-
-- North/South traffic inspection (internet egress)
-- East/West segmentation enforcement
-- Tier-based access restrictions
-- Telemetry flow control to the SIEM
-
----
-
-## Network Zones
-
-### Management Network (vmbr0 – 192.168.1.0/24)
-
-- Hosts Proxmox management interface
-- Serves as upstream internet gateway
-- Considered external relative to the lab network
-- No implicit trust into internal systems
-
----
-
-### Internal Enterprise Network (vmbr1 – 192.168.10.0/24)
-
-- Hosts all domain infrastructure
-- Enforces Active Directory tiering model
-- Subject to explicit allow rules
-- Default deny behavior enforced
-
----
-
-### Adversary Simulation Zone
-
-- Contains Kali attack host
-- Segmented from identity infrastructure
-- Traffic intentionally constrained for testing containment controls
-
----
+The OPNsense firewall serves as the central Policy Enforcement Point
+(PEP) within the enterprise homelab. All inter-network traffic is
+inspected and controlled according to a layered security policy aligned
+with enterprise Zero Trust principles.
 
 ## Firewall Rule Philosophy
 
-Rules are built using the following principles:
+Firewall rules are designed according to security intent rather than
+device-specific exceptions. Traffic is explicitly permitted only where
+required for operational functionality.
 
-### 1. Default Deny
+## Policy Layered Enforcement Model
 
-Traffic is blocked unless explicitly permitted.
+Firewall rules are organized into logical enforcement layers modeled
+after enterprise network security architecture.
 
-Explicit block rules are used to prevent unintended lateral movement.
+Rules are evaluated top-down according to functional purpose rather than
+device type.
 
----
+### 20 --- Identity Services
 
-### 2. Least Privilege
+Permits authentication and directory operations required for domain
+functionality.
 
-Rules allow only:
+Examples: - DNS - Kerberos - LDAP - NTP synchronization
 
-- Required source hosts
-- Required destination hosts
-- Required ports
-- Required protocols
+Identity services are prioritized to ensure domain stability.
 
-Broad “any-any” rules are not used.
+### 30 --- Management Plane
 
----
+Restricts administrative management traffic to authorized privileged
+systems.
 
-### 3. Tier Boundary Enforcement
+Examples: - Administrative workstation → servers - Administrative
+workstation → Domain Controller - Backup infrastructure communication
 
-Lower-tier systems cannot initiate connections to higher-tier systems unless operationally required.
+Administrative access paths are explicitly defined and monitored.
 
-Examples:
+### 40 --- Telemetry and Logging
 
-- Tier 2 → Tier 0 is restricted
-- Client-to-client communication is blocked
-- Administrative systems are isolated from user endpoints
+Ensures security telemetry reaches centralized monitoring systems before
+isolation controls apply.
 
----
+Examples: - Endpoint → Wazuh SIEM
 
-### 4. Alias-Based Rule Design
+Logging is preserved even during containment scenarios.
 
-Aliases are used to:
+### 50 --- User Activity
 
-- Improve readability
-- Simplify rule management
-- Reduce configuration errors
-- Support future scaling
+Allows controlled outbound access required for endpoint operation.
 
-Aliases are categorized by:
+Examples: - Internet browsing - System update services
 
-- Network
-- Host
-- Port group
+User systems receive minimal outbound privileges.
 
-This approach improves maintainability as the environment evolves.
+### 80 --- Tier Isolation
 
----
+Prevents privilege escalation across administrative tiers.
 
-## Controlled Traffic Flows
+Examples: - Tier 2 → Tier 1 Admin blocked - Tier 2 → Tier 0 blocked -
+Tier 1 → Tier 0 blocked - Server → Administrative workstation blocked
 
-### Identity Services
+These controls enforce Microsoft's tiered administration model at Layer
+3.
 
-Domain members are permitted to communicate with DC01 for:
+### 90 --- Containment Controls
 
-- Kerberos
-- LDAP
-- DNS
-- Authentication services
+Limits lateral movement and prevents compromise propagation.
 
-Only required Active Directory ports are allowed.
+Examples: - Endpoint-to-endpoint blocking - Lab-to-home network
+isolation
 
----
+Designed to simulate enterprise incident containment behavior.
 
-### Administrative Access
+### 99 --- Default Deny
 
-Tier 1 administrative workstation is permitted:
+All traffic not explicitly permitted is blocked.
 
-- RDP / SSH to member servers
-- Access to backup infrastructure
-- Access to monitoring systems
+## Privilege Boundary Enforcement
 
-Tier 0 administration is restricted to PAWs.
+Network controls complement Active Directory permissions by enforcing
+privilege separation independently of host security.
 
----
+Even if credential compromise occurs, firewall isolation prevents
+unauthorized administrative access paths.
 
-### Security Monitoring
+This defense-in-depth model assumes endpoint compromise and limits
+attacker progression.
 
-All systems are permitted to send telemetry to the Wazuh SIEM.
+## Security Validation
 
-Logging traffic:
+The firewall architecture enables practical validation through adversary
+simulation.
 
-- Is explicitly allowed
-- Is restricted to defined ports
-- Does not grant reverse management access
+Attack scenarios performed within the lab demonstrate:
 
----
+-   Failed Tier 2 access to Tier 0 infrastructure
+-   Blocked administrative pivot attempts
+-   Contained lateral movement
+-   Preserved SIEM telemetry during enforcement
 
-### Backup Operations
-
-Proxmox and PBS communication is restricted to defined infrastructure hosts.
-
-Backup infrastructure does not initiate broad client communication.
-
----
-
-### Attack Simulation
-
-The Kali host:
-
-- Is prevented from unrestricted lateral movement
-- Cannot directly access identity infrastructure without explicit rule
-- Is used to validate containment and detection capabilities
-
----
-
-## Lateral Movement Controls
-
-Firewall policy explicitly prevents:
-
-- Client-to-client communication
-- Client-to-administrative workstation access
-- Client-to-Tier 0 infrastructure access
-
-These controls complement Active Directory permissions and reduce credential theft risk.
-
----
-
-## Security Benefits
-
-This architecture provides:
-
-- Clear blast-radius containment
-- Measurable segmentation
-- Reduced attack surface
-- Improved detection signal quality
-- Enterprise-aligned enforcement model
-
----
-
-## Evidence
-
-![OPNsense Firewall Rules](../screenshots/firewall/opnsense-firewall-rules.png)
-
-![OPNsense Firewall Aliases](../screenshots/firewall/opnsense-aliases.png)
+This validates effective network-based privilege isolation.

@@ -1,119 +1,52 @@
-# Network Addressing Architecture
+# IP Addressing Strategy
 
-## Purpose
+## Overview
 
-This document defines the IP addressing model and subnet segmentation used in the Enterprise Security Homelab.
+The IP addressing scheme within the enterprise homelab is designed to
+support security segmentation aligned with a tiered administrative
+model. Network addressing is organized based on trust level and
+operational function rather than purely device classification.
 
-The addressing strategy supports:
+## Network Ranges
 
-- Tier-based enforcement
-- Predictable logging and SIEM correlation
-- Infrastructure role clarity
-- Future VLAN expansion
+  -----------------------------------------------------------------------
+  Network                    CIDR              Purpose
+  -------------------------- ----------------- --------------------------
+  Home LAN (vmbr0)           192.168.1.0/24    Management / External
+                                               Network
 
----
-
-## Addressing Model
-
-The environment uses RFC1918 private addressing.
-
-Two primary networks are defined:
-
-### Management Network (vmbr0)
-
-- Subnet: 192.168.1.0/24
-- Proxmox Management Interface: 192.168.1.8
-- Firewall WAN Interface: 192.168.1.171
-
-Purpose:
-
-- Upstream internet access
-- Hypervisor management
-- Separation from internal enterprise traffic
-
----
-
-### Internal Enterprise Network (vmbr1)
-
-- Subnet: 192.168.10.0/24
-- Firewall Gateway: 192.168.10.1
-
-Purpose:
-
-- Hosts all domain infrastructure
-- Enforces tier-based segmentation
-- Centralized logging and monitoring
-
----
-
-## Static Addressing Strategy
-
-All infrastructure systems use static IP assignments.
-
-Reasons:
-
-- Predictable SIEM correlation
-- Simplified firewall rule design
-- Clear infrastructure mapping
-- Reduced DHCP dependency for critical systems
-
----
-
-## Infrastructure Address Map
-
-| IP Address       | Hostname          | Role |
-|------------------|-------------------|------|
-| 192.168.10.1     | OPNsense          | Firewall Gateway |
-| 192.168.1.8      | PROXMOX-MGMT      | Hypervisor Management |
-| 192.168.10.10    | DC01              | Tier 0 Domain Controller |
-| 192.168.10.20    | PBS01             | Backup Infrastructure |
-| 192.168.10.40    | SIEM01            | Wazuh SIEM |
-| 192.168.10.60    | WIN11-Admin01     | Tier 1 Admin Workstation |
-| 192.168.10.70    | KALI01            | Attack Simulation Host |
-| 192.168.10.100   | WIN11-Client01    | Tier 2 Endpoint |
-
----
-
-## DNS Model
-
-Active Directory DNS is provided by DC01 (192.168.10.10).
-
-All domain-joined systems use DC01 as primary DNS.
-
-The firewall does not provide internal DNS services.
-
-This mirrors enterprise identity-centric DNS design.
-
----
+  Internal Lab Network       192.168.10.0/24   Enterprise Lab Environment
+  (vmbr1)                                      
+  -----------------------------------------------------------------------
 
 ## Routing Model
 
-OPNsense handles:
+Traffic between management and internal lab networks traverses the
+OPNsense firewall, which acts as the central Policy Enforcement Point
+(PEP).
 
-- Routing between management and internal networks
-- Internet egress control
-- East/West traffic filtering
+## Security Segmentation Alignment
 
-No direct routing exists between networks outside firewall inspection.
+The IP addressing model directly supports the Active Directory tiered
+administration model and firewall enforcement strategy.
 
----
+Infrastructure systems are grouped logically by security trust level
+rather than organizational function.
 
-## Design Considerations
+  Security Tier          Address Range                     Purpose
+  ---------------------- --------------------------------- -------------------------
+  Tier 0                 192.168.10.0 -- 192.168.10.49     Identity Infrastructure
+  Tier 1                 192.168.10.50 -- 192.168.10.89    Administrative Systems
+  Tier 2                 192.168.10.90 -- 192.168.10.149   User Endpoints
+  Adversary Simulation   192.168.10.150+                   Attack Testing
 
-The addressing layout:
+This structured allocation enables: - Firewall alias abstraction -
+Tier-aware traffic enforcement - SIEM correlation by subnet - Rapid
+incident containment
 
-- Aligns with Active Directory tiering
-- Simplifies firewall alias usage
-- Supports future VLAN separation
-- Enables structured monitoring visibility
+## Design Objectives
 
----
-
-## Future Expansion
-
-Planned enhancements:
-
-- VLAN segmentation per tier
-- Dedicated SIEM subnet
-- Isolated malware analysis network
-- Additional infrastructure segments
+-   Support privilege separation
+-   Enable deterministic firewall policy creation
+-   Simplify incident response analysis
+-   Provide scalable enterprise-style segmentation
